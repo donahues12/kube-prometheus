@@ -335,3 +335,13 @@ spec:
           rate(node_network_transmit_drop_total{job="node-exporter", device!="lo"}[5m])
         )
       record: instance:node_network_transmit_drop_excluding_lo:rate5m
+    - expr: |
+        count without(cpu,mod) (node_cpu_seconds_total{mode="idle"})
+      record: extracredit:node_num_cpu_corem      
+    - expr: |
+        node_memory_MemAvailable_bytes * on(instance) group_left(nodename) (node_uname_info)
+      record: extracredit:node_avail_mem      
+    - expr: |
+        node_memory_MemAvailable_bytes  / count without(cpu, mode) (node_cpu_seconds_total{mode="idle"}) 
+      record: extracredit:node_mem_by_cpu_core      
+       
