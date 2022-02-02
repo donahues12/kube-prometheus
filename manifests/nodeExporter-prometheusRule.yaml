@@ -336,20 +336,19 @@ spec:
         )
       record: instance:node_network_transmit_drop_excluding_lo:rate5m
 	 - expr: |
-        count without(cpu, mode) (
-		node_cpu_seconds_total{job="node-exporter",mode="idle"}
-		)
+	 count without(cpu, mode) (
+	 node_cpu_seconds_total{job="node-exporter",mode="idle"}
+	 )
       record: instance:extracredit:node_num_cpu_corem      
     - expr: |
         (
-		node_memory_MemAvailable_bytes{job="node-exporter"} * on(instance) group_left(nodename) (node_uname_info)
-		)
+	node_memory_MemAvailable_bytes{job="node-exporter"} * on(instance) group_left(nodename) (node_uname_info)
+	)
       record: instance:extracredit:node_avail_mem      
     - expr: |
         (
-		node_memory_MemAvailable_bytes{job="node-exporter"}
-		/ 
-		count without(cpu, mode) (node_cpu_seconds_total{job="node-exporter",mode="idle"})
-		)
+	node_memory_MemAvailable_bytes{job="node-exporter"}
+	/ 
+	count without(cpu, mode) (node_cpu_seconds_total{job="node-exporter",mode="idle"}))
       record: instance:extracredit:node_mem_by_cpu_core     
        
